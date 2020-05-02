@@ -3,11 +3,13 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 function generateToken(id) {
-    const token = jwt.sign({ id }, '263f196d308a631b35f3cf171593439a', {
-        expiresIn: 86400 //Um dia 
-    }); //quizapptemp
+    const token = jwt.sign({ id }, '263f196d308a631b35f3cf171593439a',); //quizapptemp
 
-    return token
+    // {
+    //     expiresIn: 86400 //Um dia 
+    // }
+
+    return token;
 }
 
 module.exports = {
@@ -27,7 +29,7 @@ module.exports = {
             });
         } catch(err){
             console.log(err);
-            
+
             return res.status(400).send({ error: "Não foi possível cadastrar o usuário. Tente novamente." });
         }
     },
@@ -44,9 +46,10 @@ module.exports = {
             if (!await bcrypt.compare(password, user.password))
                 return res.status(400).send({ error: "Senha inválida." });
 
-            user.password = undefined;
-
-            
+            user.password = undefined;     
+            user.__v = undefined;       
+            user.createdAt = undefined;
+            user.updatedAt = undefined;
 
             return res.send({ 
                 user, 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Paginate = require('mongoose-paginate-v2');
 const bcrypt = require('bcrypt');
 
 const UserSchema = mongoose.Schema({
@@ -16,7 +17,11 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true,
         select: false
-    }
+    },
+    savedQuizzes: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Quiz',
+    },
 
 }, { timestamps: true });
 
@@ -27,5 +32,7 @@ UserSchema.pre('save', async function(next) {
 
     next();
 });
+
+mongoose.plugin(Paginate);
 
 module.exports = mongoose.model('User', UserSchema);
