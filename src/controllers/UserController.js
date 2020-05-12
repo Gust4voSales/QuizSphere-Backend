@@ -17,24 +17,4 @@ module.exports = {
         }
     },
 
-    async show(req, res) {
-
-    },
-
-    async update(req, res) {
-        try {
-            const userId = req.userId;
-            const { quizId } = req.body;
-
-            await User.findOneAndUpdate(
-                { _id: userId }, 
-                { $push: { savedQuizzes: quizId } },
-                { runValidators: true },
-            );
-
-            res.json({ message: "Quiz salvo" });
-        } catch(err) {
-            res.status(400).json({ error: "Não foi possível salvar o quiz. Tente novamente." });
-        }
-    }   
 }

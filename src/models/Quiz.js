@@ -30,8 +30,7 @@ const QuizSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    
-});
+}, { timestamps: true });
 
 mongoose.plugin(Paginate);
 

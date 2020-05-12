@@ -15,7 +15,7 @@ module.exports = {
                 select: 'quizTitle category author tags questionsLength',
                 populate: {
                     path: 'author',
-                    select: 'name -_id'
+                    select: 'userName -_id'
                 }
             });            
             
