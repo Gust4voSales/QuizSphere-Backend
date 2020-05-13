@@ -22,10 +22,9 @@ module.exports = {
             // Check if the user to add is already a friend or invited
             const friendshipBetweenUsers = await FriendRelation.findOne({ requester: requesterId, recipient: recipientId });
 
-            if (friendshipBetweenUsers!=null) return res.status(400).json({ error: "Usuário já adicionado." });
+            if (friendshipBetweenUsers!=null) return res.status(400).json({ error: "Usuário já recebeu sua solicitação antes." });
 
             // Continue the invitation
-            
             const friendshipDocumentRequester = await FriendRelation.findOneAndUpdate(
                 { requester: requesterId, recipient: recipientId },
                 { $set: { status: 0 } },
@@ -48,6 +47,13 @@ module.exports = {
                 { runValidators: true, upsert: true }
             );
 
+            // Socket
+            const ownerSocketRecipient = req.connectedUsers[recipientId];
+            
+            if (ownerSocketRecipient) {
+                req.io.to(ownerSocketRecipient).emit('friend_invitation', friendshipDocumentRecipient);
+            }
+
             return res.json({ user, message: "Solicitação enviada com sucesso." });
         } catch (err) {
             console.log(err);
@@ -56,58 +62,6 @@ module.exports = {
         } 
     },
 
-    async update(req, res) {
-        // Accept/decline friend invitation (/user/addFriend?reply=accept  or reply=decline)
-        try {
-            const requesterId = req.userId;
-            const recipientId = req.params.recipientId;
-            const reply = req.query.reply;
-
-            if (reply==='accept') {
-                await FriendRelation.findOneAndUpdate(
-                    { requester: requesterId, recipient: recipientId },
-                    { $set: { status: 2 } },
-                    { new: true, runValidators: true },
-                );
-                await FriendRelation.findOneAndUpdate(
-                    { recipient: requesterId, requester: recipientId },
-                    { $set: { status: 2 } },
-                    { new: true, runValidators: true },
-                );
-
-                const user = await User.findById(requesterId);
-
-                return res.json({ user, message: "Usuário adicionado." });
-            }  
-            else if (reply==='decline') {
-                const friendshipDocumentRequester = await FriendRelation.findOneAndRemove(
-                    { requester: requesterId, recipient: recipientId }
-                );
-                const friendshipDocumentRecipient = await FriendRelation.findOneAndRemove(
-                    { recipient: requesterId, requester: recipientId }
-                );
-
-                if (friendshipDocumentRequester===null || friendshipDocumentRecipient===null) throw new Error(`There's no friend request to decline`);
-
-                const user = await User.findOneAndUpdate(
-                    { _id: requesterId },
-                    { $pull: { friendRelations: friendshipDocumentRequester._id } },
-                    { runValidators: true, new: true }
-                );
-                await User.findOneAndUpdate(
-                    { _id: recipientId },
-                    { $pull: { friendRelations: friendshipDocumentRecipient._id } },
-                    { runValidators: true, }
-                );
-
-                return res.json({ user, message: "Solicitação recusada." });
-            }
-
-            throw new Error('Reply at the params malformatted');
-        } catch (err) {
-            console.log(err);
-            
-            return res.status(400).json({ error: "Não foi possível responder o pedido de amizade. Tente novamente." });
-        }
-    }
+    
+    
 }

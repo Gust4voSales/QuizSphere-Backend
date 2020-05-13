@@ -1,14 +1,15 @@
 const express = require('express');
+const router = express.Router();
 
 const authMiddleware = require('./middlewares/auth');
-
 const AuthController = require('./controllers/AuthController');
 const QuizController = require('./controllers/QuizController');
 const UserController = require('./controllers/UserController');
-const UserActionsController = require('./controllers/UserActionsController');
+const UserSavedQuizzesController = require('./controllers/UserSavedQuizzesController');
 const FriendRelationController = require('./controllers/FriendRelationController');
+const AcceptFriendInvitationController = require('./controllers/AcceptFriendInvitationController');
+const DeclineFriendInvitationController = require('./controllers/DeclineFriendInvitationController');
 
-const router = express.Router()
 
 
 router.post('/auth/register', AuthController.register);
@@ -18,16 +19,19 @@ router.get('/quiz', QuizController.index);
 router.post('/quiz', authMiddleware, QuizController.store);
 router.get('/quiz/:id', QuizController.show);
 
+router.get('/user/savedQuizzes', authMiddleware, UserSavedQuizzesController.index);
+router.post('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesController.store);
+router.delete('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesController.destroy);
+
 router.get('/user', UserController.index);
+router.get('/user/:id', UserController.show);
 // router.put('/user', authMiddleware, UserController.update);
 
-router.get('/user/quiz', authMiddleware, UserActionsController.index);
-router.put('/user/quiz', authMiddleware, UserActionsController.update);
-router.delete('/user/quiz/:quizId', authMiddleware, UserActionsController.destroy);
+router.post('/user/friend/', authMiddleware, FriendRelationController.store);
 
+router.post('/user/friend/acceptInvitation/:recipientId', authMiddleware, AcceptFriendInvitationController.store);
+router.post('/user/friend/declineInvitation/:recipientId', authMiddleware, DeclineFriendInvitationController.store);
 
-router.post('/user/addFriend/', authMiddleware, FriendRelationController.store);
-router.put('/user/addFriend/:recipientId', authMiddleware, FriendRelationController.update);
 
 
 module.exports = router;
