@@ -10,10 +10,10 @@ module.exports ={
                     path: 'savedQuizzes', 
                     model: 'Quiz',
                     select: '-category -questions -private -createdAt -updatedAt -__v',
-                    populate: {
-                        path: 'author',
-                        select: 'userName -_id'
-                    } 
+                    // populate: {
+                    //     path: 'author',
+                    //     select: 'userName -_id'
+                    // } 
                 });
             
             return res.json({ quizzes });

@@ -22,7 +22,7 @@ module.exports = {
             // Check if the user to add is already a friend or invited
             const friendshipBetweenUsers = await FriendRelation.findOne({ requester: requesterId, recipient: recipientId });
 
-            if (friendshipBetweenUsers!=null) return res.status(400).json({ error: "Usuário já recebeu sua solicitação antes." });
+            if (friendshipBetweenUsers!=null) return res.status(400).json({ error: "Já existe uma solicitação pendente ou o usuário já é seu amigo." });
 
             // Continue the invitation
             const friendshipDocumentRequester = await FriendRelation.findOneAndUpdate(
@@ -48,13 +48,17 @@ module.exports = {
             );
 
             // Socket
+            friendshipDocumentRecipient.createdAt = undefined;
+            friendshipDocumentRecipient.updatedAt = undefined;
+            friendshipDocumentRecipient.__v = undefined;
+
             const ownerSocketRecipient = req.connectedUsers[recipientId];
             
             if (ownerSocketRecipient) {
                 req.io.to(ownerSocketRecipient).emit('friend_invitation', friendshipDocumentRecipient);
             }
 
-            return res.json({ user, message: "Solicitação enviada com sucesso." });
+            return res.json({ user, message: "Solicitação enviada com sucesso." });  // do I need to return the user?
         } catch (err) {
             console.log(err);
             

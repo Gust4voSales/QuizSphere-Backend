@@ -26,9 +26,8 @@ const QuizSchema = new mongoose.Schema({
         required: true,
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
+        id: mongoose.Schema.Types.ObjectId,
+        userName: String
     },
 }, { timestamps: true });
 

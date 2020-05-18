@@ -1,4 +1,5 @@
 const Quiz = require('../models/Quiz');
+const User = require('../models/User');
 
 // index, show, store, update, destroy
 
@@ -13,10 +14,10 @@ module.exports = {
                 page,
                 limit: 8,
                 select: 'quizTitle category author tags questionsLength',
-                populate: {
-                    path: 'author',
-                    select: 'userName -_id'
-                }
+                // populate: {
+                //     path: 'author',
+                //     select: 'userName -_id'
+                // }
             });            
             
             return res.json({ quizzes, });
@@ -33,17 +34,24 @@ module.exports = {
             const userId = req.userId;
             const questionsLength = questions.length;
 
+            const author = await User.findById(userId, 'userName');  
+
             const quiz = await Quiz.create({
                 quizTitle, 
                 category, 
                 private, 
                 questions,
                 questionsLength,
-                author: userId,
+                author: {
+                    id: author._id,
+                    userName: author.userName,
+                },
             });
             
             return res.send({ quiz });
         } catch (err) {
+            console.log(err);
+            
             return res.status(400).send({ error: "Não foi possível cadastrar o Quiz. Tente novamente." });
         }
     },

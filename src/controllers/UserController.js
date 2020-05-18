@@ -21,7 +21,7 @@ module.exports = {
         try {
             const id = req.params.id;
 
-            const user = await User.findById(id).select('-__v -createdAt -updatedAt -friendRelations');
+            const user = await User.findById(id).select('-__v -createdAt -updatedAt');
 
             if (user===null) {
                 return res.status(404).json({ error: "Usuário não existe." });
