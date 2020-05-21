@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const FriendRelation = require('../models/FriendRelation');
 const ActivitiesNotifications = require('../models/ActivitiesNotifications');
 
 async function deleteOldNotifications() {
@@ -40,20 +40,7 @@ module.exports = {
             return res.status(400).json({ error: "Não foi possível buscar atividades." });
         }
     },
-    async show(req, res) {
-        try {
-            const userId = req.userId;
-            
-            const newActivities = await ActivitiesNotifications.find({ recipientUser: userId, seen: false });
-            
-            if (newActivities.length>0) 
-                return res.json({ newActivities: true });
-            return res.json({ newActivities: false });
-        } catch (err) {
-            console.log(err);
-            return res.status(400).json({ error: 'Erro' });
-        }
-    },
+  
     async update(req, res) {
         try{
             const activitiesIdsToUpdate = req.body;
@@ -69,6 +56,25 @@ module.exports = {
             console.log('err', err);
             return res.status(400).json({ error: "Not possible to update acitivies" });
         }
-    }
+    },
+
+    async info(req, res) {
+        try {
+            const userId = req.userId;
+            
+            await deleteOldNotifications();
+
+            const newActivities = await ActivitiesNotifications.find({ recipientUser: userId, seen: false });
+
+            const pendingInvitations = await FriendRelation.find({ requester: userId, status: 1 });
+            
+            if (newActivities.length>0 || pendingInvitations.length>0) 
+                return res.json({ newNotifications: true });
+            return res.json({ newNotifications: false });
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ error: 'Erro' });
+        }
+    },
 
 }

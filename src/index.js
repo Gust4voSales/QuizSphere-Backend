@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const app = express();
 const server = http.Server(app);
-const io = socketio(server);
+const io = socketio(server, );
 
 const router = require('./routes');
 const configureSocket = require('./socket.config');

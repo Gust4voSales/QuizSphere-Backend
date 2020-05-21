@@ -4,15 +4,15 @@ const FriendRelation = require('../models/FriendRelation');
 
 async function createNotification(userId, newFriendUserName) {
     try {
-        const newActivity = await ActivitiesNotifications.create({
+        await ActivitiesNotifications.create({
             recipientUser: userId,
             newFriend: newFriendUserName,
             activityType: 'newFriend',
         });
 
-        return newActivity;
+        return true;
     } catch (err) {
-        console.log(err);
+        return false;
     }
 }
 
@@ -33,18 +33,18 @@ module.exports = {
                 { new: true, runValidators: true },
             );
             
-            // Socket
             const userWhoAccepted = await User.findById(requesterId, 'userName');  
-            const ownerSocketRecipient = req.connectedUsers[recipientId];
             
             // Add notification 
-            const activityNotification = await createNotification(recipientId, userWhoAccepted.userName);
+            const success = await createNotification(recipientId, userWhoAccepted.userName);
+            if (!success) return res.status(500).json({ error: "Algo de errado ocorreu" }) // User won't be notified
+
+            // Socket
+            const ownerSocketRecipient = req.connectedUsers[recipientId];        
             
             // If the user is connected send the new friend via socket
             if (ownerSocketRecipient) {
-                req.io.to(ownerSocketRecipient).emit('new_activity', activityNotification);
-                console.log(activityNotification);
-                
+                req.io.to(ownerSocketRecipient).emit('new_activity', {});
             } 
 
             return res.json({ message: "Usuário adicionado." });

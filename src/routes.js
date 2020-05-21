@@ -8,6 +8,7 @@ const UserController = require('./controllers/UserController');
 const UserSavedQuizzesController = require('./controllers/UserSavedQuizzesController');
 const NotificationsController = require('./controllers/NotificationsController');
 const FriendRelationController = require('./controllers/FriendRelationController');
+const FriendInvitationsController = require('./controllers/FriendInvitationsController');
 const AcceptFriendInvitationController = require('./controllers/AcceptFriendInvitationController');
 const DeclineFriendInvitationController = require('./controllers/DeclineFriendInvitationController');
 
@@ -25,10 +26,11 @@ router.post('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesContro
 router.delete('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesController.destroy);
 
 router.get('/user/notifications', authMiddleware, NotificationsController.index);
-router.get('/user/notifications/info', authMiddleware, NotificationsController.show);
+router.get('/user/notifications/info', authMiddleware, NotificationsController.info);
 router.put('/user/notifications/setSeenActivities', authMiddleware, NotificationsController.update);
 
 router.post('/user/friend', authMiddleware, FriendRelationController.store);
+router.get('/user/friend/pendingInvitations', authMiddleware, FriendInvitationsController.index);
 
 router.post('/user/friend/acceptInvitation/:recipientId', authMiddleware, AcceptFriendInvitationController.store);
 router.post('/user/friend/declineInvitation/:recipientId', authMiddleware, DeclineFriendInvitationController.store);

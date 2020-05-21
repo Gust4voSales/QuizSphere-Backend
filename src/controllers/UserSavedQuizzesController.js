@@ -30,7 +30,7 @@ module.exports ={
 
             const user = await User.findOneAndUpdate(
                 { _id: userId }, 
-                { $push: { savedQuizzes: quizId } },
+                { $addToSet: { savedQuizzes: quizId } },
                 { runValidators: true, new: true },
             );
 
