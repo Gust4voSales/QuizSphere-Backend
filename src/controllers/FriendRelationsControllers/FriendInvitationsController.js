@@ -1,4 +1,4 @@
-const FriendRelation = require('../models/FriendRelation');
+const FriendRelation = require('../../models/FriendRelation');
 
 module.exports = {
     async index(req, res) {

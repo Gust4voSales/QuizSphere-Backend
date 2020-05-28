@@ -1,4 +1,7 @@
 const User = require('../models/User');
+const ActivitiesNotifications = require('../models/ActivitiesNotifications');
+const FriendRelation = require('../models/FriendRelation');
+const deleteOldActivities = require('./utils/deleteOldActivities');
 
 module.exports = {
     async index(req, res) { // Delete?
@@ -25,6 +28,21 @@ module.exports = {
 
             if (user===null) {
                 return res.status(404).json({ error: "Usuário não existe." });
+            }
+
+            if (id===req.userId) {
+                await deleteOldActivities();
+                
+                try {
+                    const newActivities = await ActivitiesNotifications.find({ recipientUser: req.userId, seen: false });
+                    const pendingInvitations = await FriendRelation.find({ requester: req.userId, status: 1 });
+
+                    return res.json({ newActivities: !!newActivities.length, pendingInvitations: !!pendingInvitations.length, user });
+                } catch (err) {
+                    console.log(err);
+                    
+                    return res.status(400).json({ user, error: "Não foi possível atualizar as notificações" });
+                }
             }
 
             return res.json({ user });

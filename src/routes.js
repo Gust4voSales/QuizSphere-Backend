@@ -6,11 +6,11 @@ const AuthController = require('./controllers/AuthController');
 const QuizController = require('./controllers/QuizController');
 const UserController = require('./controllers/UserController');
 const UserSavedQuizzesController = require('./controllers/UserSavedQuizzesController');
-const NotificationsController = require('./controllers/NotificationsController');
-const FriendRelationController = require('./controllers/FriendRelationController');
-const FriendInvitationsController = require('./controllers/FriendInvitationsController');
-const AcceptFriendInvitationController = require('./controllers/AcceptFriendInvitationController');
-const DeclineFriendInvitationController = require('./controllers/DeclineFriendInvitationController');
+const ActivitiesController = require('./controllers/ActivitiesController');
+const FriendRelationController = require('./controllers/FriendRelationsControllers/FriendRelationController');
+const FriendInvitationsController = require('./controllers/FriendRelationsControllers/FriendInvitationsController');
+const AcceptFriendInvitationController = require('./controllers/FriendRelationsControllers/AcceptFriendInvitationController');
+const DeclineFriendInvitationController = require('./controllers/FriendRelationsControllers/DeclineFriendInvitationController');
 
 
 
@@ -25,9 +25,8 @@ router.get('/user/savedQuizzes', authMiddleware, UserSavedQuizzesController.inde
 router.post('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesController.store);
 router.delete('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesController.destroy);
 
-router.get('/user/notifications', authMiddleware, NotificationsController.index);
-router.get('/user/notifications/info', authMiddleware, NotificationsController.info);
-router.put('/user/notifications/setSeenActivities', authMiddleware, NotificationsController.update);
+router.get('/user/notifications', authMiddleware, ActivitiesController.index);
+router.put('/user/notifications/setSeenActivities', authMiddleware, ActivitiesController.update);
 
 router.post('/user/friend', authMiddleware, FriendRelationController.store);
 router.get('/user/friend/pendingInvitations', authMiddleware, FriendInvitationsController.index);
@@ -36,7 +35,7 @@ router.post('/user/friend/acceptInvitation/:recipientId', authMiddleware, Accept
 router.post('/user/friend/declineInvitation/:recipientId', authMiddleware, DeclineFriendInvitationController.store);
 
 router.get('/user', UserController.index);
-router.get('/user/:id', UserController.show);
+router.get('/user/:id', authMiddleware, UserController.show);
 
 
 module.exports = router;

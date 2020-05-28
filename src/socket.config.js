@@ -8,7 +8,7 @@ module.exports = function configureSocket (io, app) {
         connectedUsers[userId] = socket.id;
 
         console.log('connected ', connectedUsers);
-        socket.to(socket.id).emit('connect', );
+        socket.to(socket.id).emit('connect'); // Works as a flag indicating that the connection has been made and client should loadNotificationInfo
 
         // FriendRelation.find({ requester: userId, status: 1 }).select('requester recipient status')
         //     .then(pendingInvitations => {
@@ -17,6 +17,13 @@ module.exports = function configureSocket (io, app) {
         //     .catch(err => {});
         // io.to(socket.id).emit('a', {message: 'd'});
         // socket.on('')
+        socket.on('reconnected', ({ userId }) => {
+            console.log('reconnected', userId );
+            
+            connectedUsers[userId] = socket.id;
+            console.log('connected ', connectedUsers);
+        });
+
         socket.on('disconnect', () => {
             delete connectedUsers[userId];
             console.log('disconnected ', connectedUsers);

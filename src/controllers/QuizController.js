@@ -3,6 +3,17 @@ const User = require('../models/User');
 
 // index, show, store, update, destroy
 
+function validateTime(strTime) {
+    if (strTime.length===5) { // 1 min ou 2 min
+        return parseInt(strTime.slice(0));
+    } else if (strTime.length===6) { //10 min ou 15 min ou 30 min
+        return parseInt(strTime.slice(0, 2));
+    } else if (strTime.length===8) { // 1:30 min ou 2:30 min
+        if (strTime==='1:30 min') return 1.5;
+        if (strTime==='2:30 min') return 2.5;
+    } else throw Error('Time not valid');
+}
+
 module.exports = {
     async index(req, res) {
         try {
@@ -14,10 +25,10 @@ module.exports = {
                 page,
                 limit: 8,
                 select: 'quizTitle category author tags questionsLength',
-                // populate: {
-                //     path: 'author',
-                //     select: 'userName -_id'
-                // }
+                populate: {
+                    path: 'author',
+                    select: 'userName'
+                }
             });            
             
             return res.json({ quizzes, });
@@ -30,11 +41,11 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { quizTitle, category, private, questions } = req.body;  
+            const { quizTitle, category, private, questions, time } = req.body;  
             const userId = req.userId;
             const questionsLength = questions.length;
-
-            const author = await User.findById(userId, 'userName');  
+            
+            const validatedTime = validateTime(time);
 
             const quiz = await Quiz.create({
                 quizTitle, 
@@ -42,10 +53,8 @@ module.exports = {
                 private, 
                 questions,
                 questionsLength,
-                author: {
-                    id: author._id,
-                    userName: author.userName,
-                },
+                time: validatedTime,
+                author: userId,
             });
             
             return res.send({ quiz });
@@ -60,7 +69,11 @@ module.exports = {
         const id = req.params.id;
 
         try {
-            const quiz = await Quiz.findById(id);
+            const quiz = await Quiz.findById(id).populate({
+                path: 'author',
+                model: 'User',
+                select: 'userName'
+            });
             
             if (!quiz)
                 return res.status(404).send({ error: "Nenhum quiz cadastrado com esse id" });

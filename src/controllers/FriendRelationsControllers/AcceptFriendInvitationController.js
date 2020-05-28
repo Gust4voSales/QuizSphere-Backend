@@ -1,12 +1,12 @@
-const User = require('../models/User');
-const ActivitiesNotifications = require('../models/ActivitiesNotifications');
-const FriendRelation = require('../models/FriendRelation');
+const User = require('../../models/User');
+const ActivitiesNotifications = require('../../models/ActivitiesNotifications');
+const FriendRelation = require('../../models/FriendRelation');
 
 async function createNotification(userId, newFriendUserName) {
     try {
         await ActivitiesNotifications.create({
             recipientUser: userId,
-            newFriend: newFriendUserName,
+            friendName: newFriendUserName,
             activityType: 'newFriend',
         });
 

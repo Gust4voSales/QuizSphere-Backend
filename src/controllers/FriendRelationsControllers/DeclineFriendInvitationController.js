@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const FriendRelation = require('../models/FriendRelation');
+const User = require('../../models/User');
+const FriendRelation = require('../../models/FriendRelation');
 
 module.exports = {
     async store(req, res) {

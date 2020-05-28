@@ -1,12 +1,11 @@
-const User = require('../models/User');
-const FriendRelation = require('../models/FriendRelation');
+const User = require('../../models/User');
+const FriendRelation = require('../../models/FriendRelation');
 
 // gust4:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYjU2N2ZhODdiYTdkMjcwYzQzOGUyNiIsImlhdCI6MTU4ODk0Njk2OH0.8V0GpyoiAjhrLhetvHT_8MH6KEBgZep_BWd7tn5JMNw
 // joao: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYjU2ODExODdiYTdkMjcwYzQzOGUyNyIsImlhdCI6MTU4OTIzMjk0Mn0.oU2MaazIT4FjCwa8-fho-ita3SysAW15x-GBqWXJ6Ew
 
 module.exports = {
-   
-    async store(req, res) {
+    async store(req, res) { // Send invitation to a friend
         try{
             const requesterId = req.userId;
             const { userName } = req.query;
