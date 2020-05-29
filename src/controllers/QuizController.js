@@ -17,9 +17,11 @@ function validateTime(strTime) {
 module.exports = {
     async index(req, res) {
         try {
-            const { page = 1, category } = req.query;
+            const { page=1, category=null, author=null } = req.query;
             
-            const query = !!category ? { category } : { }; // If category has been requested, set the query to find by category, otherwise, set query to an empty obj.
+            let query = {};
+            if (category) query = { category };
+            if (author) query = { ...query, author }
 
             const quizzes = await Quiz.paginate(query, {
                 page,

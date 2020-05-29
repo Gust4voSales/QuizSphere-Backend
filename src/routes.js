@@ -5,6 +5,7 @@ const authMiddleware = require('./middlewares/auth');
 const AuthController = require('./controllers/AuthController');
 const QuizController = require('./controllers/QuizController');
 const UserController = require('./controllers/UserController');
+const UserQuizzes = require('./controllers/UserQuizzes');
 const UserSavedQuizzesController = require('./controllers/UserSavedQuizzesController');
 const ActivitiesController = require('./controllers/ActivitiesController');
 const FriendRelationController = require('./controllers/FriendRelationsControllers/FriendRelationController');
@@ -27,6 +28,8 @@ router.delete('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesCont
 
 router.get('/user/notifications', authMiddleware, ActivitiesController.index);
 router.put('/user/notifications/setSeenActivities', authMiddleware, ActivitiesController.update);
+
+router.get('/user/quiz', authMiddleware, UserQuizzes.index);
 
 router.post('/user/friend', authMiddleware, FriendRelationController.store);
 router.get('/user/friend/pendingInvitations', authMiddleware, FriendInvitationsController.index);
