@@ -21,8 +21,8 @@ module.exports = (req, res, next) => {
         if (err)
             return res.status(401).send({ error: "Token inválido" });
         
-            req.userId = decoded.id;
+        req.userId = decoded.id;
             
-            return next();
+        return next();
     }); //quizapptemp (secret)
 };

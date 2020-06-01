@@ -37,12 +37,12 @@ module.exports = {
             
             // Add notification 
             const success = await createNotification(recipientId, userWhoAccepted.userName);
-            if (!success) return res.status(500).json({ error: "Algo de errado ocorreu" }) // User won't be notified
+            if (!success) return res.status(500).json({ error: "Erro ao criar notificação" }) // User won't be notified
 
             // Socket
             const ownerSocketRecipient = req.connectedUsers[recipientId];        
             
-            // If the user is connected send the new friend via socket
+            // If the user is connected send the new friend event via socket
             if (ownerSocketRecipient) {
                 req.io.to(ownerSocketRecipient).emit('new_activity', {});
             } 

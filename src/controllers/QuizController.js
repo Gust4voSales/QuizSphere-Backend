@@ -26,7 +26,7 @@ module.exports = {
             const quizzes = await Quiz.paginate(query, {
                 page,
                 limit: 8,
-                select: 'quizTitle category author tags questionsLength',
+                select: 'quizTitle category author tags questionsLength time',
                 populate: {
                     path: 'author',
                     select: 'userName'

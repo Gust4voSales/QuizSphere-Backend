@@ -6,7 +6,7 @@ module.exports = {
             const userId = req.userId;
             
             const quizzes = await Quiz.find({ author: userId },
-                'quizTitle category author tags questionsLength',
+                'quizTitle category author tags questionsLength time',
                 {
                 populate: {
                     path: 'author',
@@ -14,7 +14,7 @@ module.exports = {
                 }
                 });            
             
-            return res.json({ quizzes, });
+            return res.json({ quizzes: { docs: quizzes } }); // Later add pagination or even export to the QuizController index
         } catch (err){
             console.log(err);
             

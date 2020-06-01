@@ -11,12 +11,12 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true,
         lowercase: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
         required: true,
-        select: false
+        select: false,
     },
     savedQuizzes: {
         type: [mongoose.Schema.Types.ObjectId],

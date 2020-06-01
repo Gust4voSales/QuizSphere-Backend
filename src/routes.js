@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('./middlewares/auth');
+
 const AuthController = require('./controllers/AuthController');
 const QuizController = require('./controllers/QuizController');
+const LikeQuizController = require('./controllers/LikeQuizController');
 const UserController = require('./controllers/UserController');
 const UserQuizzes = require('./controllers/UserQuizzes');
 const UserSavedQuizzesController = require('./controllers/UserSavedQuizzesController');
@@ -21,6 +23,9 @@ router.post('/auth/authenticate', AuthController.authenticate);
 router.get('/quiz', QuizController.index);
 router.post('/quiz', authMiddleware, QuizController.store);
 router.get('/quiz/:id', QuizController.show);
+
+router.post('/quiz/:quizId/like', authMiddleware, LikeQuizController.store);
+router.delete('/quiz/:quizId/deslike', authMiddleware, LikeQuizController.destroy);
 
 router.get('/user/savedQuizzes', authMiddleware, UserSavedQuizzesController.index);
 router.post('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesController.store);
