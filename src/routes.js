@@ -20,9 +20,9 @@ const DeclineFriendInvitationController = require('./controllers/FriendRelations
 router.post('/auth/register', AuthController.register);
 router.post('/auth/authenticate', AuthController.authenticate);
 
-router.get('/quiz', QuizController.index);
+router.get('/quiz', authMiddleware, QuizController.index);
 router.post('/quiz', authMiddleware, QuizController.store);
-router.get('/quiz/:id', QuizController.show);
+router.get('/quiz/:id', authMiddleware, QuizController.show);
 
 router.post('/quiz/:quizId/like', authMiddleware, LikeQuizController.store);
 router.delete('/quiz/:quizId/deslike', authMiddleware, LikeQuizController.destroy);

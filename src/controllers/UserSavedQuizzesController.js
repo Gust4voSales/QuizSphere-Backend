@@ -1,15 +1,17 @@
 const User = require('../models/User');
+const parseQuiz = require('./utils/parseQuiz');
 
 module.exports ={ 
     async index(req, res) {
         try {
             const userId = req.userId;
 
-            const quizzes = await User.findById(userId, 'savedQuizzes')
+            const user = await User.findById(userId, 'savedQuizzes')
+                .lean()
                 .populate({ 
                     path: 'savedQuizzes', 
                     model: 'Quiz',
-                    select: 'quizTitle tags questionsLength time author',
+                    select: 'quizTitle tags questionsLength time author likes',
                     populate: {
                         path: 'author',
                         model: 'User',
@@ -17,7 +19,11 @@ module.exports ={
                     } 
                 });
             
-            return res.json({ quizzes: { docs: quizzes.savedQuizzes } }); // Later add pagination
+            user.savedQuizzes.map(quiz => {
+                parseQuiz(userId, quiz);
+            })
+
+            return res.json({ quizzes: { docs: user.savedQuizzes } }); // Later add pagination
         } catch (err) {
             console.log(err);
             return res.status(400).json({ error: "Não foi possível listar os quizzes salvos. Tente novamente." })

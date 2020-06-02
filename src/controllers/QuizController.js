@@ -1,5 +1,5 @@
 const Quiz = require('../models/Quiz');
-const User = require('../models/User');
+const parseQuiz = require('./utils/parseQuiz');
 
 // index, show, store, update, destroy
 
@@ -17,23 +17,30 @@ function validateTime(strTime) {
 module.exports = {
     async index(req, res) {
         try {
+            const userId = req.userId;
             const { page=1, category=null, author=null } = req.query;
             
             let query = {};
             if (category) query = { category };
             if (author) query = { ...query, author }
 
-            const quizzes = await Quiz.paginate(query, {
+            let quizzes = await Quiz.paginate(query, {
                 page,
                 limit: 8,
-                select: 'quizTitle category author tags questionsLength time',
+                select: 'quizTitle category author tags questionsLength time likes',
                 populate: {
                     path: 'author',
                     select: 'userName'
-                }
+                },
+                lean: true,
             });            
-            
-            return res.json({ quizzes, });
+
+            quizzes.docs.map(quiz => {
+                parseQuiz(userId, quiz);
+            })
+            // parseQuiz(userId, quizzes.docs);
+           
+            return res.json({ quizzes });
         } catch (err){
             console.log(err);
             
@@ -68,10 +75,11 @@ module.exports = {
     },
 
     async show(req, res) {
+        const userId = req.userId;
         const id = req.params.id;
 
         try {
-            const quiz = await Quiz.findById(id).populate({
+            let quiz = await Quiz.findById(id).lean().populate({
                 path: 'author',
                 model: 'User',
                 select: 'userName'
@@ -80,8 +88,12 @@ module.exports = {
             if (!quiz)
                 return res.status(404).send({ error: "Nenhum quiz cadastrado com esse id" });
 
+            
+            parseQuiz(userId, quiz)
             return res.send({ quiz });
         } catch (err) {
+            console.log(err);
+            
             return res.status(400).send({ error: "Não foi possível buscar as informações do Quiz. Tente novamente." });
         }
     },
