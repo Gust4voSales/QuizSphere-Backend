@@ -8,8 +8,11 @@ module.exports = {
             const recipientId = req.params.recipientId;
 
             const friendshipDocumentRequester = await FriendRelation.findOneAndRemove(
-                { requester: requesterId, recipient: recipientId }  // add status at the query later
+                { requester: requesterId, recipient: recipientId, status: 1 }  // add status at the query later
             );
+            
+            if (!friendshipDocumentRequester) throw new Error('There is no friend request to decline');
+
             const friendshipDocumentRecipient = await FriendRelation.findOneAndRemove(
                 { recipient: requesterId, requester: recipientId }
             );
@@ -28,7 +31,7 @@ module.exports = {
                 { runValidators: true, }
             );
 
-            return res.json({ user, message: "Solicitação recusada." });  // Do I need to return the user?
+            return res.json({ message: "Solicitação recusada." });  // Do I need to return the user?
         } catch (err) {
             console.log(err);
             return res.status(400).json({ error: "Não foi possível recusar o pedido de amizade. Tente novamente." });

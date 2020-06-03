@@ -38,7 +38,6 @@ module.exports = {
             quizzes.docs.map(quiz => {
                 parseQuiz(userId, quiz);
             })
-            // parseQuiz(userId, quizzes.docs);
            
             return res.json({ quizzes });
         } catch (err){

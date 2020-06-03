@@ -5,6 +5,31 @@ const FriendRelation = require('../../models/FriendRelation');
 // joao: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYjU2ODExODdiYTdkMjcwYzQzOGUyNyIsImlhdCI6MTU4OTIzMjk0Mn0.oU2MaazIT4FjCwa8-fho-ita3SysAW15x-GBqWXJ6Ew
 
 module.exports = {
+    async index(req, res) {
+        try {
+            const userId = req.userId;
+            const { page=1 } = req.query;
+
+            const friends = await FriendRelation.paginate(
+                { requester: userId, status: 2 },
+                {
+                    page,
+                    limit: 2,
+                    select: 'recipient',
+                    populate: {
+                        path: 'recipient',
+                        select: 'userName',
+                    },
+                },
+            );
+
+            return res.json({ friends })
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ error: "Não foi possível listar os seus amigos." });
+        }
+    },
+
     async store(req, res) { // Send invitation to a friend
         try{
             const requesterId = req.userId;
@@ -54,7 +79,7 @@ module.exports = {
                 req.io.to(ownerSocketRecipient).emit('friend_invitation', {message: "New invitation"});
             }
 
-            return res.json({ user, message: "Solicitação enviada com sucesso." });  // do I need to return the user?
+            return res.json({ message: "Solicitação enviada com sucesso." });  // do I need to return the user?
         } catch (err) {
             console.log(err);
             
@@ -62,6 +87,25 @@ module.exports = {
         } 
     },
 
+    async destroy(req, res) {
+        try {
+            const userId = req.userId;
+            const { relationId } = req.params;
+
+            const deletedFriendRelation = await FriendRelation.findByIdAndDelete(relationId);
+            
+            // Remove friendship from both users
+            await FriendRelation.findOneAndDelete({ 
+                requester: deletedFriendRelation.recipient,  
+                recipient: userId,
+            });
+
+            return res.json({ message: "Usuário removido da lista de amigos." });   
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ error: "Erro ao tentar remover o amigo" });
+        }
+    }
     
     
 }

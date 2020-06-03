@@ -36,7 +36,10 @@ router.put('/user/notifications/setSeenActivities', authMiddleware, ActivitiesCo
 
 router.get('/user/quiz', authMiddleware, UserQuizzes.index);
 
+router.get('/user/friend', authMiddleware, FriendRelationController.index);
 router.post('/user/friend', authMiddleware, FriendRelationController.store);
+router.delete('/user/friend/:relationId', authMiddleware, FriendRelationController.destroy);
+
 router.get('/user/friend/pendingInvitations', authMiddleware, FriendInvitationsController.index);
 
 router.post('/user/friend/acceptInvitation/:recipientId', authMiddleware, AcceptFriendInvitationController.store);

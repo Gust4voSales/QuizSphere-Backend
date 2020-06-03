@@ -22,11 +22,14 @@ module.exports = {
             const requesterId = req.userId;
             const recipientId = req.params.recipientId;
 
-            await FriendRelation.findOneAndUpdate(
-                { requester: requesterId, recipient: recipientId }, // add status later?
+            const relation = await FriendRelation.findOneAndUpdate(
+                { requester: requesterId, recipient: recipientId, status: 1 }, // add status later?
                 { $set: { status: 2 } },
                 { new: true, runValidators: true },
             );
+            
+            if (!relation) throw new Error('There is no friend request to accept');
+
             await FriendRelation.findOneAndUpdate(
                 { recipient: requesterId, requester: recipientId },
                 { $set: { status: 2 } },
