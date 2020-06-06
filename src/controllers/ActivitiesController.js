@@ -10,16 +10,16 @@ module.exports = {
 
             await deleteOldActivities();
 
-            const notifications = await ActivitiesNotifications.paginate(
+            const activities = await ActivitiesNotifications.paginate(
                 { recipientUser: userId, },
                 {
                     page,
-                    limit: 10,
+                    limit: 15,
                     sort: { seen: 1, createdAt: -1 }
                 }
             );
             
-            return res.json({ notifications, });
+            return res.json({ activities, });
         } catch (err) {
             console.log(err);
             
