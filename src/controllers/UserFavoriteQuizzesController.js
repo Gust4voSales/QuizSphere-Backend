@@ -45,7 +45,7 @@ module.exports ={
             }); 
         } catch (err) {
             console.log(err);
-            return res.status(400).json({ error: "Não foi possível listar os quizzes salvos. Tente novamente." })
+            return res.status(400).json({ error: "Não foi possível listar os quizzes favoritados. Tente novamente." })
         }
     }, 
 
@@ -67,7 +67,7 @@ module.exports ={
             return res.json({ user, message: "Quiz salvo nos favoritos" });
         } catch(err) {
             console.log(err);
-            return res.status(400).json({ error: "Não foi possível salvar o quiz. Tente novamente." });
+            return res.status(400).json({ error: "Não foi possível favoritar o quiz. Tente novamente." });
         }
     },
 
@@ -85,7 +85,7 @@ module.exports ={
             return res.json({ user, message: "Quiz removido dos favoritos" });
         } catch(err) {
             console.log(err);
-            return res.status(400).json({ error: "Não foi possível remover o quiz dos salvos. Tente novamente." });
+            return res.status(400).json({ error: "Não foi possível remover o quiz dos favoritos. Tente novamente." });
         }
     }
 }

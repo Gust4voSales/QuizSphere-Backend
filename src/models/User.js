@@ -22,10 +22,6 @@ const UserSchema = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Quiz',
     },
-    friendRelations: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'FriendRelation',
-    },
 
 }, { timestamps: true });
 

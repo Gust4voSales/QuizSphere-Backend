@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../../models/User');
 const FriendRelation = require('../../models/FriendRelation');
 
@@ -21,6 +22,7 @@ module.exports = {
                 },
             );
 
+          
             return res.json({ friends })
         } catch (err) {
             console.log(err);
@@ -57,17 +59,6 @@ module.exports = {
                 { recipient: requesterId, requester: recipientId },
                 { $set: { status: 1 } },
                 { new: true, upsert: true, runValidators: true },
-            );
-
-            const user = await User.findOneAndUpdate(
-                { _id: requesterId },
-                { $push: { friendRelations: friendshipDocumentRequester._id } },
-                { runValidators: true, new: true, upsert: true }
-            );
-            await User.findOneAndUpdate(
-                { _id: recipientId },
-                { $push: { friendRelations: friendshipDocumentRecipient._id } },
-                { runValidators: true, upsert: true }
             );
 
             // Socket

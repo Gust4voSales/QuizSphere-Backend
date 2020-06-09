@@ -8,7 +8,7 @@ const QuizController = require('./controllers/QuizController');
 const LikeQuizController = require('./controllers/LikeQuizController');
 const UserController = require('./controllers/UserController');
 const UserQuizzes = require('./controllers/UserQuizzes');
-const UserSavedQuizzesController = require('./controllers/UserSavedQuizzesController');
+const UserFavoriteQuizzes = require('./controllers/UserFavoriteQuizzesController');
 const ActivitiesController = require('./controllers/ActivitiesController');
 const FriendRelationController = require('./controllers/FriendRelationsControllers/FriendRelationController');
 const FriendInvitationsController = require('./controllers/FriendRelationsControllers/FriendInvitationsController');
@@ -27,9 +27,9 @@ router.get('/quiz/:id', authMiddleware, QuizController.show);
 router.post('/quiz/:quizId/like', authMiddleware, LikeQuizController.store);
 router.delete('/quiz/:quizId/deslike', authMiddleware, LikeQuizController.destroy);
 
-router.get('/user/savedQuizzes', authMiddleware, UserSavedQuizzesController.index);
-router.post('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesController.store);
-router.delete('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesController.destroy);
+router.get('/user/savedQuizzes', authMiddleware, UserFavoriteQuizzes.index);
+router.post('/user/savedQuizzes/:quizId', authMiddleware, UserFavoriteQuizzes.store);
+router.delete('/user/savedQuizzes/:quizId', authMiddleware, UserFavoriteQuizzes.destroy);
 
 router.get('/user/notifications', authMiddleware, ActivitiesController.index);
 router.put('/user/notifications/setSeenActivities', authMiddleware, ActivitiesController.update);
