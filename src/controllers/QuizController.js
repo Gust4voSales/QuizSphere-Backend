@@ -18,15 +18,16 @@ module.exports = {
     async index(req, res) {
         try {
             const userId = req.userId;
-            const { page=1, category=null, author=null } = req.query;
+            const { page=1, category=null, author=false } = req.query;
             
             let query = {};
             if (category) query = { category };
-            if (author) query = { ...query, author }
+            if (author) query = { ...query, author: userId }
 
             let quizzes = await Quiz.paginate(query, {
                 page,
-                limit: 8,
+                limit: 8, // 10? 
+                sort: { createdAt: -1 },
                 select: 'quizTitle category author tags questionsLength time likes',
                 populate: {
                     path: 'author',
@@ -39,7 +40,9 @@ module.exports = {
                 parseQuiz(userId, quiz);
             })
            
-            return res.json({ quizzes });
+            setTimeout(() => {
+                return res.json({ quizzes });
+            }, 2000)
         } catch (err){
             console.log(err);
             

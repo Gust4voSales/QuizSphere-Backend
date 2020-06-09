@@ -1,3 +1,5 @@
+// Function that returns the quiz with the information about if the user liked it or not and also with
+// the number of likes
 function parseQuiz(userId, quiz) {
     quiz.likeCounter = quiz.likes.length;
 

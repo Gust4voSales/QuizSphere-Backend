@@ -34,7 +34,7 @@ router.delete('/user/savedQuizzes/:quizId', authMiddleware, UserSavedQuizzesCont
 router.get('/user/notifications', authMiddleware, ActivitiesController.index);
 router.put('/user/notifications/setSeenActivities', authMiddleware, ActivitiesController.update);
 
-router.get('/user/quiz', authMiddleware, UserQuizzes.index);
+// router.get('/user/quiz', authMiddleware, UserQuizzes.index);
 
 router.get('/user/friend', authMiddleware, FriendRelationController.index);
 router.post('/user/friend', authMiddleware, FriendRelationController.store);
