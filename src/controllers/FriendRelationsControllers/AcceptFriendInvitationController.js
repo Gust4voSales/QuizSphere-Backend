@@ -10,9 +10,8 @@ async function createNotification(userId, newFriendUserName) {
             activityType: 'newFriend',
         });
 
-        return true;
     } catch (err) {
-        return false;
+        console.log(err);
     }
 }
 
@@ -39,8 +38,7 @@ module.exports = {
             const userWhoAccepted = await User.findById(requesterId, 'userName');  
             
             // Add notification 
-            const success = await createNotification(recipientId, userWhoAccepted.userName);
-            if (!success) return res.status(500).json({ error: "Erro ao criar notificação" }) // User won't be notified
+            await createNotification(recipientId, userWhoAccepted.userName);
 
             // Socket
             const ownerSocketRecipient = req.connectedUsers[recipientId];        

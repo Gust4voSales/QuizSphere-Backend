@@ -13,7 +13,7 @@ module.exports = {
                 { requester: userId, status: 2 },
                 {
                     page,
-                    limit: 15,
+                    limit: 15, 
                     select: 'recipient',
                     populate: {
                         path: 'recipient',

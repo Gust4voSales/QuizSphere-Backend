@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Paginate = require('mongoose-paginate-v2');
 const bcrypt = require('bcrypt');
+const SharedQuizSchema = require('./utils/SharedQuiz');
+
 
 const UserSchema = mongoose.Schema({
     name: {
@@ -21,6 +23,9 @@ const UserSchema = mongoose.Schema({
     savedQuizzes: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Quiz',
+    },
+    sharedQuizzes: {
+        type: [SharedQuizSchema],
     },
 
 }, { timestamps: true });
