@@ -18,11 +18,26 @@ module.exports = {
     async index(req, res) {
         try {
             const userId = req.userId;
-            const { page=1, category=null, author=false } = req.query;
-            
-            let query = {};
-            if (category) query = { category };
-            if (author) query = { ...query, author: userId }
+            const { page=1, category=null, author=false, name=null, tag=null } = req.query;
+
+            // FILTERS
+            if (category) 
+                query = { private: false, category }; // Don't show private Quizzes on the Feed
+            else if (author) 
+                query = { author: userId } // Created quizzes query
+            else if (name) {
+                const regexExpression = new RegExp(name, "i"); //Find Quizzes with similar names to the one passed
+
+                query = { private: false, quizTitle: regexExpression }
+            }
+            else if (tag) {
+                const regexExpression = new RegExp(tag, "i"); //Find Quizzes with similar names to the one passed
+
+                query = { private: false, tags: { $in: [regexExpression]} } 
+            }
+            else {
+                query = {}
+            }
 
             let quizzes = await Quiz.paginate(query, {
                 page,
