@@ -10,8 +10,8 @@ module.exports ={
             
             const limit = 8;
 
-            let totalPages = await User.findById(userId, 'savedQuizzes');
-            totalPages = totalPages.savedQuizzes.length;
+            let totalDocs = await User.findById(userId, 'savedQuizzes');
+            totalDocs = totalDocs.savedQuizzes.length;
 
             const quizzes = await User.findById(userId, 'savedQuizzes')
                 .lean()
@@ -31,8 +31,6 @@ module.exports ={
                     } 
             });
           
-            console.log(quizzes.savedQuizzes.length);
-            
             quizzes.savedQuizzes.map(quiz => {
                 parseQuiz(userId, quiz);
             })
@@ -40,7 +38,7 @@ module.exports ={
             return res.json({ 
                 quizzes: {
                     docs: quizzes.savedQuizzes,
-                    totalPages,
+                    totalPages: Math.ceil(totalDocs/limit),
                 } 
             }); 
         } catch (err) {

@@ -9,6 +9,6 @@ const SharedQuizSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }
-});
+}, { _id: false });
 
 module.exports = SharedQuizSchema;

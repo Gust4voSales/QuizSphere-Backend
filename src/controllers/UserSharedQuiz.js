@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const ActivitiesNotifications = require('../models/ActivitiesNotifications');
+const parseQuiz = require('./utils/parseQuiz');
 
 async function createNotification(friendId, quizId, userName) {
     try {
@@ -23,41 +24,63 @@ module.exports = {
             
             const limit = 8;
 
-            let totalPages = await User.findById(userId, 'sharedQuizzes');
-            totalPages = totalPages.savedQuizzes.length;
+            let totalDocs = await User.findById(userId, 'sharedQuizzes'); //change to received quizzes
+            totalDocs = totalDocs.sharedQuizzes.length;
 
-            const quizzes = await User.findById(userId, 'sharedQuizzes')
+            const user = await User.findById(userId, 'sharedQuizzes')
                 .lean()
                 .sort({ createdAt: -1 })
                 .populate({                    
-                    path: 'sharedQuizzes user', 
+                    path: 'sharedQuizzes.quiz', 
                     model: 'Quiz',
-                    select: 'quizTitle tags questionsLength time author likes',
                     options: {
                         skip: limit*(page-1),
-                        limit,
+                        limit: limit,
                     },
+                    select: 'quizTitle tags questionsLength time author likes',
                     populate: {
                         path: 'author',
                         model: 'User',
                         select: 'userName'
                     } 
+                })
+                .populate({
+                    path: 'sharedQuizzes.user', 
+                    model: 'User',
+                    // options: {
+                        // skip: limit*(page-1),
+                        // limit: limit,
+                    // },
+                    select: 'userName',
+                });
+
+            let quizzes = { sharedQuizzes: [] };
+
+            user.sharedQuizzes.map((sharedQuizObj, index) => {
+                if (sharedQuizObj.quiz===null)
+                    return;
+                quizzes.sharedQuizzes.push(sharedQuizObj);
             });
-          
-            console.log(quizzes.sharedQuizzes);
             
-            quizzes.savedQuizzes.map(quiz => {
-                parseQuiz(userId, quiz);
+            if (!quizzes) {
+                console.log('null');
+                
+                return res.json({ 
+                    quizzes: { docs: [], totalPages: 0 } 
+                });
+            }
+            // console.log(quizzes.sharedQuizzes);
+            
+            quizzes.sharedQuizzes.map(sharedQuizObj => {
+                parseQuiz(userId, sharedQuizObj.quiz);
             })
 
             return res.json({ 
                 quizzes: {
-                    docs: quizzes.savedQuizzes,
-                    totalPages,
+                    docs: quizzes.sharedQuizzes,
+                    totalPages: Math.ceil(totalDocs/limit),
                 } 
-            }); 
-
-
+            });
         } catch (err) {
             console.log(err);
             return res.status(400).json({ error: "Não foi possível listar os quizzes recebidos." });
@@ -80,11 +103,11 @@ module.exports = {
                         user: userId,
                     }} },
                 );
+
                 // add notification
                 await createNotification(friendId, quizId, userName);
 
                 // send socket 
-
                 const ownerSocketRecipient = req.connectedUsers[friendId];        
                 // If the user is connected send the sharedQuiz event via socket
                 if (ownerSocketRecipient) {
