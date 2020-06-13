@@ -37,7 +37,7 @@ module.exports = {
                         skip: limit*(page-1),
                         limit: limit,
                     },
-                    select: 'quizTitle tags questionsLength time author likes',
+                    select: 'quizTitle tags questionsLength time author likes likeCounter',
                     populate: {
                         path: 'author',
                         model: 'User',

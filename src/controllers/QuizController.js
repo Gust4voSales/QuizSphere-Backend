@@ -27,8 +27,8 @@ module.exports = {
             let quizzes = await Quiz.paginate(query, {
                 page,
                 limit: 8, // 10? 
-                sort: { createdAt: -1 },
-                select: 'quizTitle category author tags questionsLength time likes',
+                sort: { likeCounter: -1 },
+                select: 'quizTitle category author tags questionsLength time likes likeCounter',
                 populate: {
                     path: 'author',
                     select: 'userName'
@@ -89,9 +89,9 @@ module.exports = {
             
             if (!quiz)
                 return res.status(404).send({ error: "Nenhum quiz cadastrado com esse id" });
-
             
-            parseQuiz(userId, quiz)
+            parseQuiz(userId, quiz);
+
             return res.send({ quiz });
         } catch (err) {
             console.log(err);

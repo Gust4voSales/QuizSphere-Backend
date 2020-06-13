@@ -19,7 +19,7 @@ module.exports ={
                 .populate({                    
                     path: 'savedQuizzes', 
                     model: 'Quiz',
-                    select: 'quizTitle tags questionsLength time author likes',
+                    select: 'quizTitle tags questionsLength time author likes likeCounter',
                     options: {
                         skip: limit*(page-1),
                         limit,

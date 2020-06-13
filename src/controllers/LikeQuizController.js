@@ -8,7 +8,10 @@ module.exports = {
         try {
             await Quiz.findByIdAndUpdate(
                 { _id: quizId }, 
-                { $addToSet: { likes: userId } },
+                { 
+                    $addToSet: { likes: userId },
+                    $inc: { likeCounter: 1 }
+                },
             );
 
             return res.json({ message: "Like confirmado" });
@@ -25,7 +28,10 @@ module.exports = {
         try {
             await Quiz.findByIdAndUpdate(
                 { _id: quizId }, 
-                { $pull: { likes: userId } },
+                { 
+                    $pull: { likes: userId },
+                    $inc: { likeCounter: -1 }
+                },
             );
 
             return res.json({ message: "Deslike confirmado" });
