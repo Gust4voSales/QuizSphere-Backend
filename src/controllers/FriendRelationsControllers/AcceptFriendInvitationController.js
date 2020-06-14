@@ -45,7 +45,7 @@ module.exports = {
             
             // If the user is connected send the new friend event via socket
             if (ownerSocketRecipient) {
-                req.io.to(ownerSocketRecipient).emit('new_activity', {});
+                req.io.to(ownerSocketRecipient).emit('new_activity', { type: 'solicitation' });
             } 
 
             return res.json({ message: "Usuário adicionado." });

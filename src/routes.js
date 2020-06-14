@@ -7,7 +7,7 @@ const AuthController = require('./controllers/AuthController');
 const QuizController = require('./controllers/QuizController');
 const LikeQuizController = require('./controllers/LikeQuizController');
 const UserController = require('./controllers/UserController');
-const UserSharedQuiz = require('./controllers/UserSharedQuiz');
+const UserShareQuiz = require('./controllers/UserShareQuiz');
 const UserFavoriteQuizzes = require('./controllers/UserFavoriteQuizzesController');
 const ActivitiesController = require('./controllers/ActivitiesController');
 const FriendRelationController = require('./controllers/FriendRelationsControllers/FriendRelationController');
@@ -31,8 +31,8 @@ router.get('/user/savedQuizzes', authMiddleware, UserFavoriteQuizzes.index);
 router.post('/user/savedQuizzes/:quizId', authMiddleware, UserFavoriteQuizzes.store);
 router.delete('/user/savedQuizzes/:quizId', authMiddleware, UserFavoriteQuizzes.destroy);
 
-router.get('/shareQuiz', authMiddleware, UserSharedQuiz.index);
-router.post('/shareQuiz/:quizId', authMiddleware, UserSharedQuiz.store);
+router.get('/shareQuiz', authMiddleware, UserShareQuiz.index);
+router.post('/shareQuiz/:quizId', authMiddleware, UserShareQuiz.store);
 
 router.get('/user/notifications', authMiddleware, ActivitiesController.index);
 router.put('/user/notifications/setSeenActivities', authMiddleware, ActivitiesController.update);

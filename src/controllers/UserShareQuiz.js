@@ -128,7 +128,7 @@ module.exports = {
                 const ownerSocketRecipient = req.connectedUsers[friendId];        
                 // If the user is connected send the sharedQuiz event via socket
                 if (ownerSocketRecipient) {
-                    req.io.to(ownerSocketRecipient).emit('new_activity', {});
+                    req.io.to(ownerSocketRecipient).emit('new_activity', { type: 'shared' });
                 } 
             }
 
