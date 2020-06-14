@@ -18,15 +18,24 @@ module.exports = {
     async index(req, res) {
         try {
             const userId = req.userId;
+<<<<<<< HEAD
             const { page=1, category=null, author=false, title=null, tag=null } = req.query;
+=======
+            const { page=1, category=null, author=false, name=null, tag=null } = req.query;
+>>>>>>> edc90d1b56bf2410139a8feb5ec9e7f808d07443
 
             // FILTERS
             if (category) 
                 query = { private: false, category }; // Don't show private Quizzes on the Feed
             else if (author) 
                 query = { author: userId } // Created quizzes query
+<<<<<<< HEAD
             else if (title) {
                 const regexExpression = new RegExp(title, "i"); //Find Quizzes with similar names to the one passed
+=======
+            else if (name) {
+                const regexExpression = new RegExp(name, "i"); //Find Quizzes with similar names to the one passed
+>>>>>>> edc90d1b56bf2410139a8feb5ec9e7f808d07443
 
                 query = { private: false, quizTitle: regexExpression }
             }
