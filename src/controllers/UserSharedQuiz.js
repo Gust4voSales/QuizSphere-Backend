@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Quiz = require('../models/Quiz');
 const ActivitiesNotifications = require('../models/ActivitiesNotifications');
 const parseQuiz = require('./utils/parseQuiz');
 
@@ -69,7 +70,6 @@ module.exports = {
                     quizzes: { docs: [], totalPages: 0 } 
                 });
             }
-            // console.log(quizzes.sharedQuizzes);
             
             quizzes.sharedQuizzes.map(sharedQuizObj => {
                 parseQuiz(userId, sharedQuizObj.quiz);
@@ -93,9 +93,15 @@ module.exports = {
             const { quizId } = req.params;
             const { friendsIds, userName } = req.body;
 
-            console.log(friendsIds);
-            
+            const quiz = await Quiz.findById(quizId, 'author private');
+
             for (let friendId of friendsIds) {
+                let notify = true;
+                
+                if (quiz.private && userId!=quiz.author) {
+                    return res.status(400).json({ error: "Apenas o autor pode compartilhar um quiz privado" });
+                }
+
                 const friend = await User.findByIdAndUpdate(
                     friendId, 
                     { $addToSet: {sharedQuizzes: {
@@ -103,6 +109,17 @@ module.exports = {
                         user: userId,
                     }} },
                 );
+
+                // if the user has already shared this quiz with the same user then don't notify anymore
+                friend.sharedQuizzes.map(sharedQuizObj => {
+                    if (sharedQuizObj.quiz==quizId && sharedQuizObj.user==userId) {
+                        notify = false;
+                        return;
+                    }
+                })
+                if (!notify) {
+                    continue
+                }
 
                 // add notification
                 await createNotification(friendId, quizId, userName);

@@ -18,16 +18,31 @@ module.exports = {
     async index(req, res) {
         try {
             const userId = req.userId;
-            const { page=1, category=null, author=false } = req.query;
-            
-            let query = {};
-            if (category) query = { category };
-            if (author) query = { ...query, author: userId }
+            const { page=1, category=null, author=false, title=null, tag=null } = req.query;
+
+            // FILTERS
+            if (category) 
+                query = { private: false, category }; // Don't show private Quizzes on the Feed
+            else if (author) 
+                query = { author: userId } // Created quizzes query
+            else if (title) {
+                const regexExpression = new RegExp(title, "i"); //Find Quizzes with similar names to the one passed
+
+                query = { private: false, quizTitle: regexExpression }
+            }
+            else if (tag) {
+                const regexExpression = new RegExp(tag, "i"); //Find Quizzes with similar names to the one passed
+
+                query = { private: false, tags: { $in: [regexExpression]} } 
+            }
+            else {
+                query = {}
+            }
 
             let quizzes = await Quiz.paginate(query, {
                 page,
                 limit: 8, // 10? 
-                sort: { likeCounter: -1 },
+                sort: author ? { createdAt: -1 } : { likeCounter: -1 } ,
                 select: 'quizTitle category author tags questionsLength time likes likeCounter',
                 populate: {
                     path: 'author',
