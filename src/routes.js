@@ -3,6 +3,7 @@ const router = express.Router();
 
 const authMiddleware = require('./middlewares/auth');
 const registerInputValidationMiddleware = require('./middlewares/registerInputValidation');
+const createQuizValidationMiddleware = require('./middlewares/createQuizValidation');
 
 const AuthController = require('./controllers/AuthController');
 const QuizController = require('./controllers/QuizController');
@@ -22,7 +23,7 @@ router.post('/auth/register', registerInputValidationMiddleware, AuthController.
 router.post('/auth/authenticate', AuthController.authenticate);
 
 router.get('/quiz', authMiddleware, QuizController.index);
-router.post('/quiz', authMiddleware, QuizController.store);
+router.post('/quiz', authMiddleware, createQuizValidationMiddleware, QuizController.store);
 router.get('/quiz/:id', authMiddleware, QuizController.show);
 
 router.post('/quiz/:quizId/like', authMiddleware, LikeQuizController.store);

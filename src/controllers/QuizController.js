@@ -3,7 +3,7 @@ const parseQuiz = require('./utils/parseQuiz');
 
 // index, show, store, update, destroy
 
-function validateTime(strTime) {
+function parseTime(strTime) {
     if (strTime.length===5) { // 1 min ou 2 min
         return parseInt(strTime.slice(0));
     } else if (strTime.length===6) { //10 min ou 15 min ou 30 min
@@ -67,11 +67,11 @@ module.exports = {
 
     async store(req, res) {
         try {
-            const { quizTitle, category, private, questions, time } = req.body;  
             const userId = req.userId;
-            const questionsLength = questions.length;
+            const { quizTitle, category, private, questions, time } = req.body;  
             
-            const validatedTime = validateTime(time);
+            const questionsLength = questions.length;
+            const parsedTime = parseTime(time);
 
             const quiz = await Quiz.create({
                 quizTitle, 
@@ -79,7 +79,7 @@ module.exports = {
                 private, 
                 questions,
                 questionsLength,
-                time: validatedTime,
+                time: parsedTime,
                 author: userId,
             });
             
@@ -103,7 +103,7 @@ module.exports = {
             });
             
             if (!quiz)
-                return res.status(404).send({ error: "Nenhum quiz cadastrado com esse id" });
+                return res.status(404).send({ error: "Nenhum quiz cadastrado com esse id." });
             
             parseQuiz(userId, quiz);
 
