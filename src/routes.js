@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('./middlewares/auth');
+const registerInputValidationMiddleware = require('./middlewares/registerInputValidation');
 
 const AuthController = require('./controllers/AuthController');
 const QuizController = require('./controllers/QuizController');
@@ -17,7 +18,7 @@ const DeclineFriendInvitationController = require('./controllers/FriendRelations
 
 
 
-router.post('/auth/register', AuthController.register);
+router.post('/auth/register', registerInputValidationMiddleware, AuthController.register);
 router.post('/auth/authenticate', AuthController.authenticate);
 
 router.get('/quiz', authMiddleware, QuizController.index);

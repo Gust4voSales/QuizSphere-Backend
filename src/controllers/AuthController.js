@@ -18,7 +18,7 @@ module.exports = {
 
         try {
             if (await User.findOne({ userName }))
-                return res.status(400).send({ error: "Usuário já cadastrado." });
+                return res.status(400).send({ error: "Nome de usuário já cadastrado." });
 
             const user = await User.create(req.body);
             user.password = undefined;
@@ -56,7 +56,7 @@ module.exports = {
                 token: generateToken(user._id)
             });
         } catch (err){
-            return res.status(400).send({ error: "Não foi possível logar. Tente novamente." });
+            return res.status(400).send({ error: "Não foi possível entrar. Tente novamente." });
         }
     }
 }
