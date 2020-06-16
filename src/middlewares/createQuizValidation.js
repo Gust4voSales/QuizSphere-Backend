@@ -7,11 +7,14 @@ const categories = ['entretenimento', 'educacionais', 'outros'];
 const timers = ['1 min', '1:30 min', '2 min', '2:30 min', '5 min', '10 min', '15 min', '30 min'];
 
 module.exports = (req, res, next) => {
-    const { quizTitle, category, private, questions, time } = req.body;  
+    const { quizTitle, category, private, questions, time, tags } = req.body;  
     
     const schema = Joi.object({
         quizTitle: Joi.string().min(4).max(40).required(),
         private: Joi.boolean().strict().required(),
+        tags: Joi.array().max(5).items(
+            Joi.string().min(1).max(20),
+        ),
         questions: Joi.array().min(3).max(24).required()
             .items(
                 Joi.object({
@@ -29,6 +32,7 @@ module.exports = (req, res, next) => {
     const { error, value } = schema.validate({
         quizTitle,
         private,
+        tags,
         questions,
     });
     

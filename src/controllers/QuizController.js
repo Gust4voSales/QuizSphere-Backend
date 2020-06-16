@@ -43,7 +43,7 @@ module.exports = {
                 page,
                 limit: 8, // 10? 
                 sort: author ? { createdAt: -1 } : { likeCounter: -1 } ,
-                select: 'quizTitle category author tags questionsLength time likes likeCounter',
+                select: 'quizTitle category author tags questionsLength time likes likeCounter private',
                 populate: {
                     path: 'author',
                     select: 'userName'
@@ -68,7 +68,7 @@ module.exports = {
     async store(req, res) {
         try {
             const userId = req.userId;
-            const { quizTitle, category, private, questions, time } = req.body;  
+            const { quizTitle, category, private, questions, time, tags=[] } = req.body;  
             
             const questionsLength = questions.length;
             const parsedTime = parseTime(time);
@@ -77,6 +77,7 @@ module.exports = {
                 quizTitle, 
                 category, 
                 private, 
+                tags,
                 questions,
                 questionsLength,
                 time: parsedTime,

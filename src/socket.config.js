@@ -5,19 +5,19 @@ module.exports = function configureSocket (io, app) {
         const { userId } = socket.handshake.query;
         connectedUsers[userId] = socket.id;
 
-        console.log('connected ', connectedUsers);
+        // console.log('connected ', connectedUsers);
         socket.to(socket.id).emit('connect'); // Works as a flag indicating that the connection has been made and client should loadUserInfo
 
         socket.on('reconnected', ({ userId }) => {
-            console.log('reconnected', userId );
+            // console.log('reconnected', userId );
             
             connectedUsers[userId] = socket.id;
-            console.log('connected ', connectedUsers);
+            // console.log('connected ', connectedUsers);
         });
 
         socket.on('disconnect', () => {
             delete connectedUsers[userId];
-            console.log('disconnected ', connectedUsers);
+            // console.log('disconnected ', connectedUsers);
         });
     });
 

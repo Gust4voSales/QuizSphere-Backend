@@ -4,7 +4,7 @@ const FriendRelation = require('../models/FriendRelation');
 const deleteOldActivities = require('./utils/deleteOldActivities');
 
 module.exports = {
-    async index(req, res) { // Delete?
+    async index(req, res) { // Delete? NOT BEEING USED
         try {
             const { page=1, userName } = req.query;
             const regexExpression = new RegExp(userName, "i"); //Find similar users

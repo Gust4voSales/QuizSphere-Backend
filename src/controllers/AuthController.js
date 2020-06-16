@@ -4,11 +4,9 @@ const { TOKEN_SECRET } = require('../config');
 const User = require('../models/User');
 
 function generateToken(id) {
-    const token = jwt.sign({ id }, TOKEN_SECRET,); //quizapptemp
-
-    // {
-    //     expiresIn: 86400 //Um dia 
-    // }
+    const token = jwt.sign({ id }, TOKEN_SECRET, {
+        expiresIn: '7d' 
+    }); 
 
     return token;
 }

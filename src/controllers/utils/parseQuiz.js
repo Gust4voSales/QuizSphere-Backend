@@ -9,7 +9,6 @@ function parseQuiz(userId, quiz) {
     }
 
     quiz.id = undefined;
-    // quiz.likes = undefined;
 }
 
 module.exports = parseQuiz;

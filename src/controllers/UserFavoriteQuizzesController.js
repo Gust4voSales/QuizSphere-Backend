@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const User = require('../models/User');
 const parseQuiz = require('./utils/parseQuiz');
 
@@ -19,7 +18,7 @@ module.exports ={
                 .populate({                    
                     path: 'savedQuizzes', 
                     model: 'Quiz',
-                    select: 'quizTitle tags questionsLength time author likes likeCounter',
+                    select: 'quizTitle tags questionsLength time author likes likeCounter private',
                     options: {
                         skip: limit*(page-1),
                         limit,
