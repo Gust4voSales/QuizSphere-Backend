@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http');
 const socketio = require('socket.io');
+const { PORT, MONGODB_URL, } = require('./config');
 const cors = require('cors');
 
 const app = express();
@@ -11,7 +12,7 @@ const io = socketio(server);
 const router = require('./routes');
 const configureSocket = require('./socket.config');
 
-mongoose.connect('mongodb+srv://gust4:galindo1234@cluster0-xnl74.mongodb.net/quizApp?retryWrites=true&w=majority', {
+mongoose.connect(MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -25,4 +26,4 @@ app.use(express.json());
 app.use(router);
 
 
-server.listen(3333);
+server.listen(PORT || 3333);

@@ -1,9 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { TOKEN_SECRET } = require('../config');
 const User = require('../models/User');
 
 function generateToken(id) {
-    const token = jwt.sign({ id }, '263f196d308a631b35f3cf171593439a',); //quizapptemp
+    const token = jwt.sign({ id }, TOKEN_SECRET,); //quizapptemp
 
     // {
     //     expiresIn: 86400 //Um dia 

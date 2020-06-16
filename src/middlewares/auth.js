@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { TOKEN_SECRET } = require('../config');
 
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -17,12 +18,12 @@ module.exports = (req, res, next) => {
         return res.status(401).send({ error: "Token mal formatado" });
 
     //Token verification
-    jwt.verify(token, '263f196d308a631b35f3cf171593439a', (err, decoded) => {
+    jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
         if (err)
             return res.status(401).send({ error: "Token inválido" });
         
         req.userId = decoded.id;
             
         return next();
-    }); //quizapptemp (secret)
+    }); 
 };
