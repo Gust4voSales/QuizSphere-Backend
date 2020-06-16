@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-// This list of categories should be the same list as the one in FeedTrending from the app
+// This list of categories should be the same list as the one in FeedTrending and CreateQuiz from the app
 const categories = ['entretenimento', 'educacionais', 'outros'];
 
 // This list of timers should be the same list as the one in CreateQuiz from the app
@@ -20,7 +20,9 @@ module.exports = (req, res, next) => {
                     options: Joi.array().length(4).required().
                         items(
                             Joi.string().max(52).required()
-                        )})
+                    ),
+                    key: Joi.string(),
+                })
             )
     });
 

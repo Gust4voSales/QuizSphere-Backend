@@ -77,7 +77,7 @@ module.exports = {
 
             return res.json({ 
                 quizzes: {
-                    docs: quizzes.sharedQuizzes,
+                    docs: quizzes.sharedQuizzes.reverse(),
                     totalPages: Math.ceil(totalDocs/limit),
                 } 
             });

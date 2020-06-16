@@ -18,7 +18,6 @@ const AcceptFriendInvitationController = require('./controllers/FriendRelationsC
 const DeclineFriendInvitationController = require('./controllers/FriendRelationsControllers/DeclineFriendInvitationController');
 
 
-
 router.post('/auth/register', registerInputValidationMiddleware, AuthController.register);
 router.post('/auth/authenticate', AuthController.authenticate);
 

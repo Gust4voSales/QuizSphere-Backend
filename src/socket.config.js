@@ -1,5 +1,3 @@
-const FriendRelation = require('./models/FriendRelation');
-
 module.exports = function configureSocket (io, app) {
     const connectedUsers = [];
 
@@ -8,7 +6,7 @@ module.exports = function configureSocket (io, app) {
         connectedUsers[userId] = socket.id;
 
         console.log('connected ', connectedUsers);
-        socket.to(socket.id).emit('connect'); // Works as a flag indicating that the connection has been made and client should loadNotificationInfo
+        socket.to(socket.id).emit('connect'); // Works as a flag indicating that the connection has been made and client should loadUserInfo
 
         socket.on('reconnected', ({ userId }) => {
             console.log('reconnected', userId );
