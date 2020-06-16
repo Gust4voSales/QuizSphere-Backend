@@ -26,4 +26,4 @@ app.use(express.json());
 app.use(router);
 
 
-server.listen(process.env.PORT || PORT || 3333);
+server.listen(PORT || 3333);

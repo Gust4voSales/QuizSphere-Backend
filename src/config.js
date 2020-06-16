@@ -5,5 +5,5 @@ dotenv.config();
 module.exports = {
     PORT: process.env.PORT,
     MONGODB_URL: process.env.MONGODB_URL,
-    TOKEN_SECRET: process.env.TOKEN_SECRET, //quizapptemp (secret)
+    TOKEN_SECRET: process.env.TOKEN_SECRET, 
 }
