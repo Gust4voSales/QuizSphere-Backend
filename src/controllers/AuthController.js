@@ -40,7 +40,7 @@ module.exports = {
             const user = await User.findOne({ userName }).select('+password');
 
             if (!user)
-                return res.status(404).send({ error: "Usuário não encontrado." });
+                return res.status(404).send({ error: "Nome de usuário não encontrado." });
 
             if (!await bcrypt.compare(password, user.password))
                 return res.status(400).send({ error: "Senha inválida." });
@@ -54,6 +54,7 @@ module.exports = {
                 user, 
                 token: generateToken(user._id)
             });
+
         } catch (err){
             return res.status(400).send({ error: "Não foi possível entrar. Tente novamente." });
         }

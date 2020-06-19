@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 
 // This list of categories should be the same list as the one in FeedTrending and CreateQuiz from the app
-const categories = ['entretenimento', 'educacionais', 'outros'];
+const categories = ['arte e literatura', 'ciências e natureza', 'diversos', 'entretenimento', 'esportes', 'história', 'mundo',];
 
 // This list of timers should be the same list as the one in CreateQuiz from the app
 const timers = ['1 min', '1:30 min', '2 min', '2:30 min', '5 min', '10 min', '15 min', '30 min'];
