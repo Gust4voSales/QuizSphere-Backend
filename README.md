@@ -25,7 +25,7 @@ O que o aplicativo faz/permite:
  - Compartilhar quiz com amigos;
  - Receber notificações no aplicativo em tempo real quando algum usuário aceita sua solicitação de amizade ou quando compartilham um quiz com você.
 
-## 🧩Rotas do server:]
+## 🧩Rotas do server
 | Rota | Método HTTP |  Função | Requer autenticação | 
 | --- | --- | --- | --- |
 | /auth/register |  `POST` | Registra um novo usuário e retorna um Token de autenticação | **Não** | 
