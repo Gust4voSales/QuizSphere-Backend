@@ -61,7 +61,7 @@ has received the private quiz can play it);
 - **JSON Web Tokens** — It's a technique for remote authentication between two parts and it's one of the most used strategies to authenticate users in APIs RESTful 
 
 
-## 🛠Installation
+## 🛠Getting started
 1. Clone this repo running on your terminal ````git clone https://github.com/Gust4voSales/QuizSphere-Backend.git ```` 
 2. Inside the project's folder run ```yarn``` to install all dependencies
 3. Create the application's database using MongoAtlas platform (follow this tutorial: https://medium.com/@sergio13prez/connecting-to-mongodb-atlas-d1381f184369)  
