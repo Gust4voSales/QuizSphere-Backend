@@ -60,7 +60,7 @@ O que o aplicativo faz/permite:
 - **JSON Web Tokens** — É uma técnica para autenticação remota entre duas partes e é uma das formas mais utilizadas para autenticar usuários em APIs RESTful.
 
 
-## 🛠Instalação
+## 🛠Iniciando
 1. Clone o repositório rodando no seu terminal/cmd ````git clone https://github.com/Gust4voSales/QuizSphere-Backend.git ```` 
 2. Entre na pasta do projeto e rode ```yarn``` para instalar todas as dependências
 3. Crie a o banco de dados da aplicação utilizando a plataforma MongoAtlas (seguir este tutorial: https://medium.com/@sergio13prez/connecting-to-mongodb-atlas-d1381f184369)
