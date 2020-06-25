@@ -1,4 +1,4 @@
-[English README](https://github.com/Gust4voSales/QuizSphere-Cliente/blob/master/README-ENGLISH.md)
+[English README](https://github.com/Gust4voSales/QuizSphere-Backend/blob/master/README-ENGLISH.md)
 <h1 align="center">
 <img src="https://i.imgur.com/HMr0tyZ.png" alt="icon" height="100">
 <br>
