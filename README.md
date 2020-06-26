@@ -7,7 +7,9 @@ QuizSphere
 
 <p align="center">Crie quizes abertos ou privados, favorite os melhores e envie para seus amigos.</p>
 -Link do aplicativo na PlayStore: https://play.google.com/store/apps/details?id=com.gust4
+<br>
 -Link no Youtube monstrando app: https://www.youtube.com/watch?v=bO2aJ0DFudk
+<br>
 -Link do server hospedado no Heroku: https://quiz-sphere-backend.herokuapp.com
 
 <hr />
