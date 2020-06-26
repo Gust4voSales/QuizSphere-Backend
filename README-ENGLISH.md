@@ -5,8 +5,12 @@ QuizSphere
 </h1>
 
 <p align="center">Create public or private quizzes, favorite the best ones and share them with your friends.</p>
-App link in the PlayStore: https://play.google.com/store/apps/details?id=com.gust4
-<p>Server link hosted in Heroku: https://quiz-sphere-backend.herokuapp.com/</p>
+-App link in the PlayStore: https://play.google.com/store/apps/details?id=com.gust4
+<br>
+-Youtube link showing the app: https://www.youtube.com/watch?v=bO2aJ0DFudk
+<br>
+-Server link hosted in Heroku: https://quiz-sphere-backend.herokuapp.com
+
 
 <hr />
 
