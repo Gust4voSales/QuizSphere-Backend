@@ -46,7 +46,7 @@ O que o aplicativo faz/permite:
 | /quiz/received | `GET`|Retorna a listagem de quizes recebidos | **Sim** | 
 | /friends| `GET`|Retorna a listagem de amigos do usuário | **Sim** | 
 | /friends/pendingInvitations | `GET`|Retorna a listagem das solicitações de amizade pendentes | **Sim** | 
-| /friends/add?=addedUser=userName | `POST`|Envia solicitação de amizade a algum usuário | **Sim** | 
+| /friends/add?userName= | `POST`|Envia solicitação de amizade a algum usuário | **Sim** | 
 | /friends/accept/:recipientId | `POST`|Aceita solicitação de amizade | **Sim** | 
 | /friends/decline/:recipientId | `DELETE`|Rejeita solicitação de amizade | **Sim** | 
 | /friends/remove/:relationId | `DELETE`|Remover um amigo | **Sim** | 
