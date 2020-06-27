@@ -47,7 +47,7 @@ has received the private quiz can play it);
 | /quiz/received | `GET`|Returns the received quizzes list | **Yes** | 
 | /friends| `GET`|Returns the user's friends list| **Yes** | 
 | /friends/pendingInvitations | `GET`|Returns the user's pending friendship requests | **Yes** | 
-| /friends/add?=addedUser=userName | `POST`|Add some user as a friend | **Yes** | 
+| /friends/add?userName= | `POST`|Add some user as a friend | **Yes** | 
 | /friends/accept/:recipientId | `POST`|Accepts a friendship request | **Yes** | 
 | /friends/decline/:recipientId | `DELETE`|Decline a friendship request | **Yes** | 
 | /friends/remove/:relationId | `DELETE`|Remove a user from user's friends list| **Yes** | 
