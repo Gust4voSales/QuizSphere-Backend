@@ -56,7 +56,7 @@ has received the private quiz can play it);
 
 If you want to test the API without a front-end client you can use Insomnia. Import the workspace with one click! 
 
-<a href="https://insomnia.rest/run/?label=QuizSphere&uri=adasdasdasdadsa.com" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia" width="22%"></a>
+<a href="https://insomnia.rest/run/?label=QuizSphere&uri=https://github.com/Gust4voSales/QuizSphere-Backend/blob/master/InsomniaWorkspace.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia" width="22%"></a>
 
 
 ## ⚙ Features
