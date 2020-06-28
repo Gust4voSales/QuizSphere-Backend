@@ -14,7 +14,7 @@ QuizSphere
 
 <hr />
 
-## 📜About
+## 📜 About
 This project contains the backend from the QuizSphere application (frontend mobile code: https://github.com/Gust4voSales/QuizSphere-Cliente).
 The app was developed with the objective of gaining experience and knowledge using updated technologies. QuizSphere is a mix of a quiz game and social networking features.
 
@@ -29,33 +29,37 @@ has received the private quiz can play it);
  - Share quiz with your friends;
  - Receive real-time notifications in the app whenever a user accepts your friends invitations or when someone shares a quiz with you; 
 
-## 🧩Server routes
+## 🧩 Server routes
 | Route | HTTP method |  Function | Requires authentication | 
 | --- | --- | --- | --- |
-| /auth/register |  `POST` | Creates a new user and returns an authentication Token | **No** | 
-| /auth/authenticate | `POST` |Performs user login returning an authentication Token if success | **No** | 
-| /quiz | `GET`|Returns the quiz list, filters can be added | **Yes** | 
-| /quiz | `POST`| Creates a new quiz | **Yes** | 
-| /quiz/:id | `GET`| Receives the quiz ID and returns its data | **Yes** | 
-| /quiz/:quizId/like | `POST`|Likes the quiz | **Yes** | 
-| /quiz/:quizId/deslike | `DELETE`|Removes like from quiz | **Yes** | 
-| /user/:id | `GET`|Returns user’s info | **Yes** | 
-| /user/savedQuizzes | `GET`|Returns the user favorite quizzes list | **Yes** | 
-| /user/savedQuizzes/:quizId | `POST`|Adds a quiz to the user’s favorites quizzes | **Yes** | 
-| /user/savedQuizzes/:quizId | `DELETE`|Removes a quiz from the user favorites quizzes list | **Yes** | 
-| /user/notifications | `GET`|Returns the user notification list | **Yes** | 
-| /user/notifications/setSeenActivities | `PUT`|Updates the received notifications as “seen”| **Yes** | 
-| /user/friend | `GET`|Returns the user friend list | **Yes** | 
-| /user/friend | `POST`|Sends friendship invitation to some user | **Yes** | 
-| /user/friend/:relationId | `DELETE`|Removes friendship | **Yes** | 
-| /user/friend/pendingInvitations | `GET`|Returns pending friendship invitations list | **Yes** | 
-| /user/friend/acceptInvitation/:recipientId | `POST`|Accepts friendship invitation | **Yes** | 
-| /user/friend/declineInvitation/:recipientId | `DELETE`|Rejects friendship invitation | **Yes** | 
-| /shareQuiz | `GET`|Returns received quiz list | **Yes** | 
-| /shareQuiz/:quizId | `POST`|Shares a quiz with a friend | **Yes** | 
+| /users/register |  `POST` | Creates a new user | **No** | 
+| /auth/login | `POST` |Performs user login returning an authentication Token if success | **No** | 
+| /users/:id | `GET`|Returns a single user information | **Yes** | 
+| /quiz/create | `POST`| Creates a new quiz | **Yes** | 
+| /quiz/show/:id | `GET`|Receives the quiz ID and returns its data | **Yes** | 
+| /quiz/list | `GET`|Returns the quiz list, filters can be added | **Yes** | 
+| /quiz/saved/add/:quizId | `POST`|Add a quiz to user's liked quizzes list | **Yes** | 
+| /quiz/saved/remove/:quizId | `DELETE`|Remove a quiz from user's liked quizzes list | **Yes** | 
+| /quiz/saved | `GET`|Returns the user's favorite quizzes list | **Yes** | 
+| /quiz/:quizId/like | `POST`|Likes a quiz | **Yes** | 
+| /quiz/:quizId/dislike | `DELETE`|Dislikes a quiz | **Yes** | 
+| /quiz/share/:quizId | `POST`|Shares a quiz with a friend	 | **Yes** | 
+| /quiz/received | `GET`|Returns the received quizzes list | **Yes** | 
+| /friends| `GET`|Returns the user's friends list| **Yes** | 
+| /friends/pendingInvitations | `GET`|Returns the user's pending friendship requests | **Yes** | 
+| /friends/add?userName= | `POST`|Add some user as a friend | **Yes** | 
+| /friends/accept/:recipientId | `POST`|Accepts a friendship request | **Yes** | 
+| /friends/decline/:recipientId | `DELETE`|Decline a friendship request | **Yes** | 
+| /friends/remove/:relationId | `DELETE`|Remove a user from user's friends list| **Yes** | 
+| /notifications | `GET`|Returns user's notifications list | **Yes** | 
+| /notifications/setasread | `PUT`|Updates the received notifications as “seen”| **Yes** | 
+
+If you want to test the API without a front-end client you can use Insomnia. Import the workspace with one click! 
+
+<a href="https://insomnia.rest/run/?label=QuizSphere&uri=adasdasdasdadsa.com" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia" width="22%"></a>
 
 
-## ⚙Features
+## ⚙ Features
 [//]: # (Add the features of your project here:)
 - **Node Js** — An asynchronous event-driven JavaScript runtime
 - **Express** — A Node.js framework that allows an easy way to develop web applications
@@ -65,7 +69,7 @@ has received the private quiz can play it);
 - **JSON Web Tokens** — It's a technique for remote authentication between two parts and it's one of the most used strategies to authenticate users in APIs RESTful 
 
 
-## 🛠Getting started
+## 🛠 Getting started
 1. Clone this repo running on your terminal ````git clone https://github.com/Gust4voSales/QuizSphere-Backend.git ```` 
 2. Inside the project's folder run ```yarn``` to install all dependencies
 3. Create the application's database using MongoAtlas platform (follow this tutorial: https://medium.com/@sergio13prez/connecting-to-mongodb-atlas-d1381f184369)  
