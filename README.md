@@ -55,7 +55,7 @@ O que o aplicativo faz/permite:
 
 Para testar a API sem um cliente front-end você pode utilizar o Insomnia. É só clicar para importar o workspace! 
 
-<a href="https://github.com/Gust4voSales/QuizSphere-Backend/blob/master/InsomniaWorkspace.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia" width="22%"></a>
+<a href="https://insomnia.rest/run/?label=QuizSphere&uri=https://github.com/Gust4voSales/QuizSphere-Backend/blob/master/InsomniaWorkspace.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia" width="22%"></a>
 
 ## ⚙ Ferramentas
 [//]: # (Add the features of your project here:)
