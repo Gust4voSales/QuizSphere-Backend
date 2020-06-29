@@ -30,7 +30,7 @@ module.exports = {
 
   async update(req, res) {
     try {
-      const { activitiesIdsToUpdate } = req.body;
+      const activitiesIdsToUpdate = req.body;
 
       await ActivitiesNotifications.updateMany(
         { _id: { $in: activitiesIdsToUpdate } },

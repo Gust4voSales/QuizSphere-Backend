@@ -24,10 +24,6 @@ router.post(
   AuthController.register
 );
 
-// check this routes. Should not use auth?
-router.get("/users", UserController.index);
-router.get("/quiz/list", QuizController.index);
-
 router.post("/auth/login", AuthController.authenticate);
 
 // routes that need auth
@@ -35,6 +31,7 @@ router.use(authMiddleware);
 
 // users
 router.get("/users/:id", UserController.show);
+// router.get("/users", UserController.index); // Not being used 
 
 // quiz - create
 router.post(
@@ -45,6 +42,9 @@ router.post(
 
 // quiz - show
 router.get("/quiz/show/:id", QuizController.show);
+
+// quiz - list
+router.get("/quiz/list", QuizController.index);
 
 // quiz - saves
 router.post("/quiz/saved/add/:quizId", UserFavoriteQuizzes.store);
